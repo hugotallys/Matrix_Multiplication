@@ -11,7 +11,6 @@ Input must be like this:
 
 2 3 -> number of lines and rows of the first matrix.
 3 1 -> number of lines and rows of the second matrix.
-
 1 2 3 4 5 6 -> elements of the first matrix (line by line).
 4 5 7 -> elements of the second matrix (line by line).
 */
@@ -268,7 +267,7 @@ int * strassen_algorithm(int *a, int *b, unsigned n)
     return s;    
 }
 
-// Takes to positive numbers returns the value of the greater.
+// Takes two positive numbers returns the value of the greater.
 unsigned max(unsigned a, unsigned b)
 {
     return a > b ? a : b;
