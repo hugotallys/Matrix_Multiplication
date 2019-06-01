@@ -155,7 +155,7 @@ int * mult_matrix(int *a, int *b, unsigned n)
         delete_matrix(a22);
         delete_matrix(b11);
         delete_matrix(b12);
-        delete_matrix(b22);
+        delete_matrix(b21);
         delete_matrix(b22);
 
         for (i = 0; i < m; i++)
@@ -232,7 +232,7 @@ int * strassen_algorithm(int *a, int *b, unsigned n)
         delete_matrix(a22);
         delete_matrix(b11);
         delete_matrix(b12);
-        delete_matrix(b22);
+        delete_matrix(b21);
         delete_matrix(b22);
 
         int *s11 = add_matrix(add_matrix(sub_matrix(p4, p2, m), p5, m), p6, m);
