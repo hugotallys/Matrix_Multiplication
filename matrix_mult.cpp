@@ -1,30 +1,28 @@
 #include <iostream>
+#include <cmath>
 
 // Allocates a nxn square matrix filled with zeroes.
-long long int * allocate_matrix(unsigned n)
+long long * allocate_matrix(long long n)
 {
-    unsigned i;
-    long long int *zeroes = new long long int[n*n];
+    long long i;
+    long long *zeroes = new long long[n*n]();
 
-    for(i = 0; i < n*n; ++i)
-        zeroes[i] = 0;
-    
     return zeroes;
 }
 
 // Takes a pointer to a square matrix and deallocates it.
-void delete_matrix(long long int *matrix)
+void delete_matrix(long long *matrix)
 {
     delete[] matrix;
 }
 
 // Takes a square matrix nxn and returns the minor matrix lxc.
-long long int * trim_matrix(long long int *matrix, unsigned n, unsigned l, unsigned c)
+long long * trim_matrix(long long *matrix, long long n, long long l, long long c)
 {
-    long long int *t;
-    unsigned i , j;
+    long long *t;
+    long long i, j;
 
-    t = new long long int[l*c];
+    t = new long long[l*c];
 
     for(i = 0; i < l; ++i)
     {
@@ -39,26 +37,26 @@ long long int * trim_matrix(long long int *matrix, unsigned n, unsigned l, unsig
     return t;
 }
 
-// Takes a square matrix and its dimensions and outputs the its content to the screen.
-void print_matrix(long long int *matrix, unsigned l, unsigned c)
+// Takes a matrix and its dimensions and outputs the its content to the screen.
+void print_matrix(long long *matrix, long long l, long long c)
 {
-    unsigned i, j;
-    
+    long long i, j;
+
     for(i = 0; i < l; ++i)
     {
         for(j = 0; j < c; j++)
         {
-            printf("%d ", matrix[i*c + j]);
+            printf("%lld ", matrix[i*c + j]);
         }
         printf("\n");
     }
 }
 
 // Takes two square matrices and their size and returns their sum.
-long long int * add_matrix(long long int *a, long long int *b, unsigned n)
+long long * add_matrix(long long *a, long long *b, long long n)
 {
-    long long int *s;
-    unsigned i, j;
+    long long *s;
+    long long i, j;
 
     s = allocate_matrix(n);
     for(i = 0; i < n; ++i)
@@ -72,10 +70,10 @@ long long int * add_matrix(long long int *a, long long int *b, unsigned n)
 }
 
 // Takes two square matrices and their size and returns their subtraction.
-long long int * sub_matrix(long long int *a, long long int *b, unsigned n)
+long long * sub_matrix(long long *a, long long *b, long long n)
 {
-    long long int *s;
-    unsigned i, j;
+    long long *s;
+    long long i, j;
 
     s = allocate_matrix(n);
     for(i = 0; i < n; ++i)
@@ -90,9 +88,9 @@ long long int * sub_matrix(long long int *a, long long int *b, unsigned n)
 
 // Takes two square matrices and their size and returns their multiplication.
 // Strassen's algorithm (O(n^(lg7))) for matrix multiplication.
-long long int * strassen_algorithm(long long int *a, long long int *b, unsigned n)
+long long * strassen_algorithm(long long *a, long long *b, long long n)
 {
-    long long int *s = allocate_matrix(n);
+    long long *s = allocate_matrix(n);
 
     if(n == 1)
     {
@@ -100,19 +98,19 @@ long long int * strassen_algorithm(long long int *a, long long int *b, unsigned 
     }
     else
     {
-        unsigned i, j, m;
+        long long i, j, m;
 
         m = n >> 1;
 
-        long long int *a11 = allocate_matrix(m);
-        long long int *a12 = allocate_matrix(m);
-        long long int *a21 = allocate_matrix(m);
-        long long int *a22 = allocate_matrix(m);
+        long long *a11 = allocate_matrix(m);
+        long long *a12 = allocate_matrix(m);
+        long long *a21 = allocate_matrix(m);
+        long long *a22 = allocate_matrix(m);
 
-        long long int *b11 = allocate_matrix(m);
-        long long int *b12 = allocate_matrix(m);
-        long long int *b21 = allocate_matrix(m);
-        long long int *b22 = allocate_matrix(m);
+        long long *b11 = allocate_matrix(m);
+        long long *b12 = allocate_matrix(m);
+        long long *b21 = allocate_matrix(m);
+        long long *b22 = allocate_matrix(m);
 
         for (i = 0; i < m; i++)
         {
@@ -129,13 +127,13 @@ long long int * strassen_algorithm(long long int *a, long long int *b, unsigned 
             }
         }
 
-        long long int *p1 = strassen_algorithm(a11, sub_matrix(b12, b22, m), m);
-        long long int *p2 = strassen_algorithm(add_matrix(a11, a12, m), b22, m);
-        long long int *p3 = strassen_algorithm(add_matrix(a21, a22, m), b11, m);
-        long long int *p4 = strassen_algorithm(a22, sub_matrix(b21, b11, m), m);
-        long long int *p5 = strassen_algorithm(add_matrix(a11, a22, m), add_matrix(b11, b22, m), m);
-        long long int *p6 = strassen_algorithm(sub_matrix(a12, a22, m), add_matrix(b21, b22, m), m);
-        long long int *p7 = strassen_algorithm(sub_matrix(a11, a21, m), add_matrix(b11, b12, m), m);
+        long long *p1 = strassen_algorithm(a11, sub_matrix(b12, b22, m), m);
+        long long *p2 = strassen_algorithm(add_matrix(a11, a12, m), b22, m);
+        long long *p3 = strassen_algorithm(add_matrix(a21, a22, m), b11, m);
+        long long *p4 = strassen_algorithm(a22, sub_matrix(b21, b11, m), m);
+        long long *p5 = strassen_algorithm(add_matrix(a11, a22, m), add_matrix(b11, b22, m), m);
+        long long *p6 = strassen_algorithm(sub_matrix(a12, a22, m), add_matrix(b21, b22, m), m);
+        long long *p7 = strassen_algorithm(sub_matrix(a11, a21, m), add_matrix(b11, b12, m), m);
 
         delete_matrix(a11);
         delete_matrix(a12);
@@ -146,10 +144,10 @@ long long int * strassen_algorithm(long long int *a, long long int *b, unsigned 
         delete_matrix(b21);
         delete_matrix(b22);
 
-        long long int *s11 = add_matrix(add_matrix(sub_matrix(p4, p2, m), p5, m), p6, m);
-        long long int *s12 = add_matrix(p1, p2, m);
-        long long int *s21 = add_matrix(p3, p4, m);
-        long long int *s22 = add_matrix(sub_matrix(sub_matrix(p5, p3, m), p7, m), p1, m);
+        long long *s11 = add_matrix(add_matrix(sub_matrix(p4, p2, m), p5, m), p6, m);
+        long long *s12 = add_matrix(p1, p2, m);
+        long long *s21 = add_matrix(p3, p4, m);
+        long long *s22 = add_matrix(sub_matrix(sub_matrix(p5, p3, m), p7, m), p1, m);
 
         delete_matrix(p1);
         delete_matrix(p2);
@@ -175,30 +173,44 @@ long long int * strassen_algorithm(long long int *a, long long int *b, unsigned 
         delete_matrix(s21);
         delete_matrix(s22);
     }
-    return s;    
+    return s;
 }
 
 // Takes two positive numbers returns the value of the greater.
-unsigned max(unsigned a, unsigned b)
+long long max(long long a, long long b)
 {
     return a > b ? a : b;
 }
 
-// Takes a postitve number n and returns the first power of two b such that b >= n. 
-unsigned closest_power_of_two(unsigned n)
+// Raises the given basis b to the power of e.
+long long fast_exp(long long b, long long e)
 {
-    unsigned b = 2;
-    while(n > b)
-        b = b << 1;
-    return b;
+    long long r = 1;
+
+    while (e > 0)
+    {
+        if (e & 1)
+          r = (r * b);
+        b = (b * b);
+        e >>= 1;
+    }
+    return r;
+}
+
+// Takes a postitve number n and returns the first power of two greater or equals to n.
+long long closest_power_of_two(long long n)
+{
+    long long p;
+    p = (unsigned) ceil(log(n)/log(2));
+    return fast_exp(2, p);
 }
 
 int main()
 {
-    long long int *A, *B, *S, *C;
-    unsigned lin_a, col_a, lin_b, col_b, i, j, n, m;
+    long long *A, *B, *S, *C;
+    long long lin_a, col_a, lin_b, col_b, i, j, n, m;
 
-    scanf("%u %u %u %u", &lin_a, &col_a, &lin_b, &col_b);
+    scanf("%lld %lld %lld %lld", &lin_a, &col_a, &lin_b, &col_b);
 
     n = max(lin_b, max(col_b, max(lin_a, col_a)));
     m = closest_power_of_two(n);
@@ -224,8 +236,8 @@ int main()
 
     S = strassen_algorithm(A, B, m);
     C = trim_matrix(S, m, lin_a, col_b);
-    printf("17111663\n%u %u\n", lin_a, col_b);
+    printf("17111663\n%lld %lld\n", lin_a, col_b);
     print_matrix(C, lin_a, col_b);
-    
+
     return 0;
 }
